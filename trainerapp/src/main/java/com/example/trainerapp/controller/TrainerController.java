@@ -37,4 +37,9 @@ public class TrainerController {
         trainerService.deleteTrainer(id);
         return "Trainer deleted successfully";
     }
+
+    @GetMapping("/{subject}/topic")
+    public List<Trainer> getTrainersBySubject(@PathVariable String subject) {
+        return trainerService.getTrainersBySubject(subject);
+    }
 }

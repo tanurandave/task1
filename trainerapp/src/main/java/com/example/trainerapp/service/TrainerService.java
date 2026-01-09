@@ -30,4 +30,8 @@ public class TrainerService {
     public void deleteTrainer(Long id) {
         trainerRepository.deleteById(id);
     }
+
+    public List<Trainer> getTrainersBySubject(String subjectName) {
+        return trainerRepository.findTrainersBySubjectName(subjectName);
+    }
 }

@@ -1,6 +1,7 @@
 package com.example.trainerapp.controller;
 
 import com.example.trainerapp.entity.Subject;
+import com.example.trainerapp.entity.SubjectWithTrainers;
 import com.example.trainerapp.service.SubjectService;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +29,7 @@ public class SubjectController {
     }
 
     @GetMapping("/{id}")
-    public Subject getSubjectById(@PathVariable Long id) {
-        return subjectService.getSubjectById(id);
+    public SubjectWithTrainers getSubjectById(@PathVariable Long id) {
+        return subjectService.getSubjectWithTrainers(id);
     }
 }
