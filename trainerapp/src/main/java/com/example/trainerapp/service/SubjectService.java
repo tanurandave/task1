@@ -1,6 +1,7 @@
 package com.example.trainerapp.service;
 
 import com.example.trainerapp.entity.Subject;
+import com.example.trainerapp.entity.SubjectRequest;
 import com.example.trainerapp.entity.SubjectTopic;
 import com.example.trainerapp.entity.SubjectWithTrainers;
 import com.example.trainerapp.entity.Topic;
@@ -75,5 +76,40 @@ public class SubjectService {
     public void removeTopicFromSubject(Long subjectId, Long topicId) {
         List<SubjectTopic> subjectTopics = subjectTopicRepository.findBySubjectIdAndTopicId(subjectId, topicId);
         subjectTopicRepository.deleteAll(subjectTopics);
+    }
+
+    public Subject addSubjectWithTopics(SubjectRequest subjectRequest) {
+        // Create and save the subject
+        Subject subject = new Subject();
+        subject.setSubjectName(subjectRequest.getSubjectName());
+        subject.setDescription(subjectRequest.getDescription());
+        Subject savedSubject = subjectRepository.save(subject);
+
+        // Save topics and associate with subject
+        if (subjectRequest.getTopics() != null) {
+            for (Topic topic : subjectRequest.getTopics()) {
+                Topic savedTopic;
+                if (topic.getTopicId() == null) {
+                    // Save new topic
+                    savedTopic = topicRepository.save(topic);
+                } else {
+                    // Use existing topic
+                    savedTopic = topic;
+                }
+                // Associate topic with subject
+                assignTopicToSubject(savedSubject.getSubjectId(), savedTopic.getTopicId());
+            }
+        }
+
+        return savedSubject;
+    }
+
+    public void deleteSubject(Long id) {
+        // Delete related TrainerSubject records
+        trainerSubjectRepository.deleteBySubjectId(id);
+        // Delete related SubjectTopic records
+        subjectTopicRepository.findBySubjectId(id);
+        // Delete the subject
+        subjectRepository.deleteById(id);
     }
 }

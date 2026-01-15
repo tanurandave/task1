@@ -1,3 +1,4 @@
+
 package com.example.trainerapp.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -43,6 +44,13 @@ public interface TrainerSubjectRepository
      */
     boolean existsByEmpIdAndSubjectId(Long empId, Long subjectId);
     
+    /**
+     * Delete all assignments for a subject
+     */
+    @Modifying
+    @Transactional
+    void deleteBySubjectId(Long subjectId);
+
     /**
      * Delete all duplicates keeping only the first one
      * Used for data cleanup

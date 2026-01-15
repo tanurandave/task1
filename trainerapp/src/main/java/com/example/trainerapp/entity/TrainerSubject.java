@@ -26,4 +26,10 @@ public class TrainerSubject {
     
     @Column(name = "subject_id", nullable = false)
     private Long subjectId;
+
+    @Column(name = "trainer_name", nullable = false)
+    private String trainerName;
+
+    @Column(name = "subject_name", nullable = false)
+    private String subjectName;
 }

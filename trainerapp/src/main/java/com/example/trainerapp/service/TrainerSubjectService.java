@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.trainerapp.entity.TrainerSubject;
 import com.example.trainerapp.repository.TrainerSubjectRepository;
+import com.example.trainerapp.repository.TrainerRepository;
+import com.example.trainerapp.repository.SubjectRepository;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,6 +14,12 @@ public class TrainerSubjectService {
 
     @Autowired
     private TrainerSubjectRepository trainerSubjectRepository;
+
+    @Autowired
+    private TrainerRepository trainerRepository;
+
+    @Autowired
+    private SubjectRepository subjectRepository;
 
     /**
      * Get all trainer-subject assignments
@@ -45,9 +53,9 @@ public class TrainerSubjectService {
      * Assign a trainer to a subject
      * Prevents duplicate assignments using database constraint
      */
-    public TrainerSubject assignTrainerToSubject(TrainerSubject trainerSubject) 
+    public TrainerSubject assignTrainerToSubject(TrainerSubject trainerSubject)
             throws Exception {
-        
+
         // Validate input
         if (trainerSubject.getEmpId() == null || trainerSubject.getSubjectId() == null) {
             throw new Exception("Trainer ID and Subject ID are required!");
@@ -59,11 +67,20 @@ public class TrainerSubjectService {
             throw new Exception("This trainer is already assigned to this subject!");
         }
 
+        // Populate trainer name and subject name
+        var trainer = trainerRepository.findById(trainerSubject.getEmpId())
+                .orElseThrow(() -> new Exception("Trainer not found!"));
+        var subject = subjectRepository.findById(trainerSubject.getSubjectId())
+                .orElseThrow(() -> new Exception("Subject not found!"));
+
+        trainerSubject.setTrainerName(trainer.getName());
+        trainerSubject.setSubjectName(subject.getSubjectName());
+
         try {
             return trainerSubjectRepository.save(trainerSubject);
         } catch (Exception e) {
             // Handle duplicate key constraint violation
-            if (e.getMessage() != null && 
+            if (e.getMessage() != null &&
                 (e.getMessage().contains("Duplicate") || e.getMessage().contains("UNIQUE"))) {
                 throw new Exception("This trainer is already assigned to this subject!");
             }

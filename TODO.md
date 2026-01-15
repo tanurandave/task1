@@ -1,19 +1,13 @@
-# Subject-Topic Assignment Feature Implementation
+# TODO: Add Delete Functionality for Subjects
 
-## Backend Tasks
-- [ ] Create Topic entity (Topic.java)
-- [ ] Create SubjectTopic entity (SubjectTopic.java)
-- [ ] Create TopicRepository (TopicRepository.java)
-- [ ] Create TopicService (TopicService.java)
-- [ ] Create TopicController (TopicController.java)
-- [ ] Update SubjectService to handle topic assignments
-- [ ] Update SubjectController to include topic endpoints
-- [ ] Create CREATE_TOPIC_TABLE.sql
-- [ ] Create CREATE_SUBJECT_TOPIC_TABLE.sql
+## Backend Changes
+- [x] Add `deleteSubject(Long id)` method in SubjectService.java to delete the subject and handle related records (TrainerSubject and SubjectTopic).
+- [x] Add `@DeleteMapping("/{id}")` endpoint in SubjectController.java to call the delete service.
 
-## Frontend Tasks
-- [ ] Update subjectService.js with new API calls
-- [ ] Update AddSubject.js to allow adding topics when creating a subject
+## Frontend Changes
+- [x] Add `deleteSubject(id)` function in subjectService.js using `api.delete`.
+- [x] Update SubjectList.js to add a delete button to each subject card and handle deletion by calling deleteSubject and updating the subjects state.
 
 ## Testing
-- [ ] Test APIs and frontend integration
+- [x] Test the delete functionality to ensure subjects are removed from DB and UI updates.
+- [x] Handle any potential errors or confirmations.

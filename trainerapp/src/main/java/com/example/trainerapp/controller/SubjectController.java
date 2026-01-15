@@ -1,6 +1,7 @@
 package com.example.trainerapp.controller;
 
 import com.example.trainerapp.entity.Subject;
+import com.example.trainerapp.entity.SubjectRequest;
 import com.example.trainerapp.entity.SubjectWithTrainers;
 import com.example.trainerapp.entity.Topic;
 import com.example.trainerapp.service.SubjectService;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/subject")
-@CrossOrigin("*")
+@CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE, RequestMethod.PUT, RequestMethod.OPTIONS})
 public class SubjectController {
 
     private final SubjectService subjectService;
@@ -22,6 +23,11 @@ public class SubjectController {
     @PostMapping
     public Subject addSubject(@RequestBody Subject subject) {
         return subjectService.addSubject(subject);
+    }
+
+    @PostMapping("/with-topics")
+    public Subject addSubjectWithTopics(@RequestBody SubjectRequest subjectRequest) {
+        return subjectService.addSubjectWithTopics(subjectRequest);
     }
 
     @GetMapping
@@ -47,5 +53,10 @@ public class SubjectController {
     @DeleteMapping("/{subjectId}/topics/{topicId}")
     public void removeTopicFromSubject(@PathVariable Long subjectId, @PathVariable Long topicId) {
         subjectService.removeTopicFromSubject(subjectId, topicId);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteSubject(@PathVariable Long id) {
+        subjectService.deleteSubject(id);
     }
 }

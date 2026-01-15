@@ -31,6 +31,8 @@ CREATE TABLE `trainer_subject` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `emp_id` BIGINT NOT NULL,
   `subject_id` BIGINT NOT NULL,
+  `trainer_name` VARCHAR(255) NOT NULL,
+  `subject_name` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk4ss3re5g7efw0tbq0f30xpqs9` (`emp_id`, `subject_id`),
   KEY `fk_trainer_subject_subject` (`subject_id`),
